@@ -108,6 +108,9 @@ export default function Explore() {
                 if (Platform.OS === "web") saveWeb();
                 else saveNative();
                 setIsDownloading(false);
+                setDownloadProg(0);
+                contents = Buffer.from("");
+                socket.removeAllListeners("lsla_dwdata");
             }
         });
 

@@ -27,6 +27,10 @@ export default function Menu() {
             link: `/shell?t=${targetID}&s=/bin/zsh` as RelativePathString,
         },
         {
+            name: "/bin/python3" as RelativePathString,
+            link: `/shell?t=${targetID}&s=/bin/python3` as RelativePathString,
+        },
+        {
             name: "C:\\Windows\\System32\\cmd.exe",
             link: `/shell?t=${targetID}&s=C:\\Windows\\System32\\cmd.exe` as RelativePathString,
         },

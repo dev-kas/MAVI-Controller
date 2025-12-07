@@ -10,7 +10,7 @@ import useSio from "@/hooks/useSio";
 
 export default function Index() {
   const router = useRouter();
-  const [targetID, setTargetID] = useState("2FbkxPI4hpA8ErEXAAA3");
+  const [targetID, setTargetID] = useState("");
   const [windowDimensions, setWindowDimensions] = useState(Dimensions.get("window"));
   const { socket, isConnected } = useSio();
 
