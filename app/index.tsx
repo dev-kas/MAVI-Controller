@@ -1,30 +1,17 @@
 import { useRouter } from "expo-router";
-import { BackHandler, Dimensions, Text, TextInput, View } from "react-native";
+import { BackHandler, Text, TextInput, View } from "react-native";
 
 import * as colors from "@/constants/Colors";
 import * as fonts from "@/constants/Fonts";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ActionButton from "@/components/ActionButton";
 import useSio from "@/hooks/useSio";
 
 export default function Index() {
   const router = useRouter();
   const [targetID, setTargetID] = useState("");
-  const [windowDimensions, setWindowDimensions] = useState(Dimensions.get("window"));
   const { socket, isConnected } = useSio();
-
-  useEffect(() => {
-    setWindowDimensions(Dimensions.get('window'));
-    const onChange = (dimensions: any) => {
-      setWindowDimensions(dimensions.window);
-    };
-
-    const subscription = Dimensions.addEventListener("change", onChange);
-
-    // Cleanup the event listener on component unmount
-    return () => subscription?.remove();
-  }, []);
 
   return (
     <View

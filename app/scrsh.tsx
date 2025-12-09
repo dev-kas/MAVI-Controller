@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import * as colors from "@/constants/Colors";
 import * as fonts from "@/constants/Fonts";
 
-export default function Shell() {
+export default function Scrsh() {
     return (
         <View style={{
             flex: 1,
@@ -14,8 +14,7 @@ export default function Shell() {
                 fontFamily: fonts.BOLD,
                 color: colors.TEXT,
                 fontSize: 20
-            }}>Shell isn't supported on this platform</Text>
+            }}>Scrsh isn't supported on this platform</Text>
         </View>
     );
 }
-

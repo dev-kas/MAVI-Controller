@@ -33,11 +33,9 @@ export default function Shell() {
     return (
         <View style={{
             flex: 1,
-            // padding: 20,
             paddingTop: statusBarHeight,
             backgroundColor: colors.BACKGROUND,
         }}>
-            {/* <Text>Terminal for {targetID} using {shell}</Text> */}
             {
                 <WTerm 
                     onData={(data)=>{

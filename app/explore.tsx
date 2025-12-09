@@ -127,7 +127,7 @@ export default function Explore() {
         async function saveNative() {
             try {
                 // Convert buffer to a base64 string for mobile
-                const base64String = encode(contents);
+                const base64String = encode(contents.buffer.slice(contents.byteOffset, contents.byteOffset + contents.byteLength));
                 const fileUri = FileSystem.documentDirectory + fname;
         
                 // Write the file to the document directory as a binary file

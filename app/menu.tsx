@@ -5,13 +5,48 @@ import { ExternalPathString, Link, RelativePathString, useLocalSearchParams } fr
 import * as colors from "@/constants/Colors";
 import * as fonts from "@/constants/Fonts";
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import useSio from "@/hooks/useSio";
 
 export default function Menu() {
-    const { t : targetID } = useLocalSearchParams();
+    const { t: targetID } = useLocalSearchParams();
+    const [ ping, setPing ] = React.useState(0);
+    const [ rtt, setRtt ] = React.useState(0);
+    const { socket, isConnected } = useSio();
 
-    if (!targetID) {
-        return;
-    }
+    if (!targetID) return;
+
+    // PING
+    React.useEffect(() => {
+        if (!socket || !isConnected) return;
+
+        const interval = setInterval(() => {
+            const start = Date.now();
+
+            socket.emit("ping", () => {
+                const duration = Date.now() - start;
+                setPing(duration);
+            });
+        }, 1000);
+
+        return () => { clearInterval(interval) };
+    }, [socket]);
+
+    // RTT
+    React.useEffect(() => {
+        if (!socket || !isConnected) return;
+
+        const interval = setInterval(() => {
+            const start = Date.now();
+
+            socket.emit("rtt", () => {
+                const duration = Date.now() - start;
+                setRtt(duration);
+            });
+        }, 1000);
+
+        return () => { clearInterval(interval) };
+    }, [socket]);
+
 
     const data: { name: string, link: RelativePathString | ExternalPathString }[] = [
         {
@@ -41,6 +76,10 @@ export default function Menu() {
         {
             name: "lsla",
             link: `/explore?t=${targetID}&m=lsla` as RelativePathString,
+        },
+        {
+            name: "scrsh",
+            link: `/scrsh?t=${targetID}&m=scrsh` as RelativePathString,
         }
     ];
 
@@ -54,8 +93,50 @@ export default function Menu() {
             <Text style={{
                 fontFamily: fonts.BOLD,
                 color: colors.TEXT,
-                fontSize: 20
+                fontSize: 20,
+                paddingBottom: 15
             }}>Select a process to spawn:</Text>
+
+            <View style={{
+                backgroundColor: colors.SECONDARY,
+                padding: 10,
+                marginTop: 10,
+                position: "fixed",
+                bottom: 10,
+                right: 10,
+                borderColor: colors.PRIMARY,
+                borderWidth: 1,
+                zIndex: 2
+            }}>
+                {
+                    [
+                        ["ping", ping + "ms"],
+                        ["rtt", rtt + "ms"],
+                        ["target", targetID],
+                    ].map((item, index)=>{
+                        return (
+                            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                <Text
+                                    key={index}
+                                    style={{
+                                        fontFamily: fonts.REGULAR,
+                                        color: colors.TEXT,
+                                        paddingRight: 15
+                                    }}
+                                >{item[0]}:</Text>
+                                <Text
+                                    key={index+20}
+                                    style={{
+                                        fontFamily: fonts.BOLD,
+                                        color: colors.PRIMARY
+                                    }}
+                                >{item[1]}</Text>
+                            </View>
+                        )
+                    })
+                }
+            </View>
+
             <ScrollView>
                 {
                     data.map((item, index) => (
