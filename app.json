@@ -8,6 +8,7 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "homepage": "https://alt-kas.github.io",
     "ios": {
       "supportsTablet": true
     },
